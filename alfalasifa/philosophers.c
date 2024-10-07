@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/08 00:33:25 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:43:33 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,12 @@
 int	initialisation(t_var *data, char **av, int ac)
 {
 	data->nom = -13;
+	data->nop = ft_atol(av[1]);
+	data->ttd = ft_atol(av[2]);
+	data->tte = ft_atol(av[3]);
+	data->tts = ft_atol(av[4]);
 	if (ac == 6)
-	{
-		data->nop = ft_atol(av[1]);
-		data->ttd = ft_atol(av[2]);
-		data->tte = ft_atol(av[3]);
-		data->tts = ft_atol(av[4]);
 		data->nom = ft_atol(av[5]);
-	}
-	else if (ac == 5)
-	{
-		data->nop = ft_atol(av[1]);
-		data->ttd = ft_atol(av[2]);
-		data->tte = ft_atol(av[3]);
-		data->tts = ft_atol(av[4]);
-	}
 	if (data->nom == -1 || data->nop == -1 || data->ttd == -1
 		|| data->tte == -1 || data->tts == -1
 		|| data->nop == 0 || data->nom == 0)
