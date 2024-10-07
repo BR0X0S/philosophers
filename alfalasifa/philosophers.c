@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/08 00:10:03 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:33:25 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // printf("tts -> %ld\n", data.tts);
 // printf("nom -> %ld\n", data.nom);
 
-void	initialisation(t_var *data, char **av, int ac)
+int	initialisation(t_var *data, char **av, int ac)
 {
 	data->nom = -13;
 	if (ac == 6)
@@ -29,19 +29,16 @@ void	initialisation(t_var *data, char **av, int ac)
 		data->tts = ft_atol(av[4]);
 		data->nom = ft_atol(av[5]);
 	}
-	else
+	else if (ac == 5)
 	{
 		data->nop = ft_atol(av[1]);
 		data->ttd = ft_atol(av[2]);
 		data->tte = ft_atol(av[3]);
 		data->tts = ft_atol(av[4]);
 	}
-}
-
-int	ft_check(t_var data)
-{
-	if (data.nom == -1 || data.nop == -1 || data.ttd == -1
-		|| data.tte == -1 || data.tts == -1)
+	if (data->nom == -1 || data->nop == -1 || data->ttd == -1
+		|| data->tte == -1 || data->tts == -1
+		|| data->nop == 0 || data->nom == 0)
 	{
 		printf("invalid input\n");
 		return (0);
@@ -55,8 +52,7 @@ int	main(int ac, char **av)
 
 	if (ac >= 5 && ac <= 6)
 	{
-		initialisation(&data, av, ac);
-		if (!ft_check(data) || data.nop == 0 || data.nom == 0)
+		if (!initialisation(&data, av, ac))
 			return (0);
 	}
 	else
