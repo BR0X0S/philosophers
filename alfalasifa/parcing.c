@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:40:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/09/17 20:10:48 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:18:50 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-void	ft_error(char *str)
+long	get_time(void)
 {
-	write(2, str, ft_strlen(str));
-	exit(1);
+	struct timeval	tv;
+	long			time;
+
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (time);
 }
 
 int	ft_check_str(char *str)
@@ -54,18 +58,18 @@ long	ft_atol(char *str)
 	data.sign = 1;
 	data.result = 0;
 	if (ft_check_str(str) == -1)
-		ft_error("Error\n");
+		return (-1);
 	if (str[data.i] == '-' || str[data.i] == '+')
-		ft_error("Error\n");
+		return (-1);
 	while ((str[data.i] >= '0' && str[data.i] <= '9'))
 	{
 		data.result = data.result * 10 + (str[data.i] - '0');
 		data.i++;
 	}
 	if (str[data.i])
-		ft_error("Error\n");
+		return (-1);
 	data.result *= data.sign;
 	if (data.result < 0)
-		ft_error("Error\n");
+		return (-1);
 	return (data.result);
 }
