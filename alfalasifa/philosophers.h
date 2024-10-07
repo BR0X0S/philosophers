@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/09/17 18:59:10 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:58:43 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <pthread.h>
+# include <sys/time.h>
 
 typedef struct s_var
 {
