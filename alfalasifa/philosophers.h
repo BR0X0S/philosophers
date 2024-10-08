@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/08 00:18:44 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/08 01:13:24 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 
 typedef struct s_var
 {
-	long	i;
-	long	sign;
-	long	result;
 	long	nop;
 	long	ttd;
 	long	tte;

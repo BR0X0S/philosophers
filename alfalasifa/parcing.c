@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:40:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/08 00:18:50 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/08 01:17:09 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,23 @@ int	ft_check_str(char *str)
 
 long	ft_atol(char *str)
 {
-	t_var	data;
+	int		i;
+	long	result;
 
-	data.i = 0;
-	data.sign = 1;
-	data.result = 0;
+	i = 0;
+	result = 0;
 	if (ft_check_str(str) == -1)
 		return (-1);
-	if (str[data.i] == '-' || str[data.i] == '+')
+	if (str[i] == '-' || str[i] == '+')
 		return (-1);
-	while ((str[data.i] >= '0' && str[data.i] <= '9'))
+	while ((str[i] >= '0' && str[i] <= '9'))
 	{
-		data.result = data.result * 10 + (str[data.i] - '0');
-		data.i++;
+		result = result * 10 + (str[i] - '0');
+		i++;
 	}
-	if (str[data.i])
+	if (str[i])
 		return (-1);
-	data.result *= data.sign;
-	if (data.result < 0)
+	if (result < 0)
 		return (-1);
-	return (data.result);
+	return (result);
 }
