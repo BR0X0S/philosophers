@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/08 01:13:24 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:06:48 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,17 @@
 
 typedef struct s_var
 {
-	long	nop;
-	long	ttd;
-	long	tte;
-	long	tts;
-	long	nom;
-	long	time;
+	long			i;
+	long			start;
+	long			end;
+	long			total_time;
+	long			nop;
+	long			ttd;
+	long			tte;
+	long			tts;
+	long			nom;
+	long			time;
+	pthread_mutex_t	lock;
 }	t_var;
 
 long	ft_atol(char *str);
