@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   test2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:56:33 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/09 18:29:08 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:09:26 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ long	get_time(void)
 	return (time);
 }
 
-void	*rotine(void *args)
+void	*rotin1(void *args)
 {
-	t_var *data = (t_var *)args;
-		pthread_mutex_lock(&data->lock);
-		data->start = get_time();
-		pthread_mutex_unlock(&data->lock);
+	t_var	*data = (t_var *)args;
+	// pthread_mutex_lock(&data->lock);
+	// data->start = get_time();
+	// pthread_mutex_unlock(&data->lock);
 	while (data->i < 10)
 	{
 		sleep(1);
@@ -37,15 +37,18 @@ void	*rotine(void *args)
 	}
 }
 
-void	*rotine2(void *args)
+void	*rotin2(void *args)
 {
-	t_var *data = (t_var *)args;
+	t_var	*data = (t_var *)args;
+	pthread_mutex_lock(&data->lock);
+	data->start = get_time();
+	pthread_mutex_unlock(&data->lock);
 	while (1)
 	{
 		pthread_mutex_lock(&data->lock);
 		if (get_time() - data->start >= 3000)
 		{
-			printf("i = %ld\n", data->i);
+			printf("After 3s the i = %ld\n", data->i);
 			data->start = get_time();
 		}
 		if (data->i >= 10)
@@ -58,21 +61,18 @@ void	*rotine2(void *args)
 	}
 }
 
-int	main(void)
+int main(void)
 {
-	long			time;
-	long			time2;
-	pthread_t		thrd1;
-	pthread_t		thrd2;
-	struct timeval	tv;
-	t_var			data;
+	t_var		data;
+	pthread_t	philo1;
+	pthread_t	philo2;
 
-	data.i = 0;
 	pthread_mutex_init(&data.lock, NULL);
-	pthread_create(&thrd1, NULL, rotine, &data);
-	pthread_create(&thrd2, NULL, rotine2, &data);
-	pthread_join(thrd1, NULL);
-	pthread_join(thrd2, NULL);
-	// printf("i = %ld\n", data.i);
-	return (0);
+	data.i = 0;
+	pthread_create(&philo1, NULL, rotin1, &data);
+	pthread_create(&philo2, NULL, rotin2, &data);
+	pthread_join(philo1, NULL);
+	pthread_join(philo2, NULL);
+	printf("i = %ld\n", data.i);
+	pthread_mutex_destroy(&data.lock);
 }
