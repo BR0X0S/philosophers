@@ -6,13 +6,13 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 18:23:36 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/10 18:49:41 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:44:48 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_desk	*lst_last(t_desk *head)
+t_philo	*lst_last(t_philo *head)
 {
 	if (!head)
 		return (NULL);
@@ -21,15 +21,20 @@ t_desk	*lst_last(t_desk *head)
 	return (head);
 }
 
-t_desk	*new_node(t_var	*data)
+t_philo	*new_node(t_var	*data)
 {
-	t_desk	*new_node;
+	t_philo	*new_node;
 
-	new_node = malloc(sizeof(t_desk));
+	new_node = malloc(sizeof(t_philo));
 	if (data->i == 0)
 		data->first_filo = new_node;
 	pthread_mutex_init(&new_node->fork, NULL);
-	new_node->data = data;
+	new_node->tte = data->tte;
+	new_node->ttd = data->ttd;
+	new_node->tts = data->tts;
+	new_node->nom = data->nom;
+	new_node->nop = data->nop;
+	new_node->pid = data->i;
 	if (data->i == data->nop)
 		new_node->next = data->first_filo;
 	else
@@ -37,9 +42,9 @@ t_desk	*new_node(t_var	*data)
 	return (new_node);
 }
 
-void	lst_add_back(t_desk **head, t_desk *new_node)
+void	lst_add_back(t_philo **head, t_philo *new_node)
 {
-	t_desk	*last_node;
+	t_philo	*last_node;
 
 	if (!head)
 		return ;
@@ -50,18 +55,21 @@ void	lst_add_back(t_desk **head, t_desk *new_node)
 		*head = new_node;
 }
 
-void	ft_lstclear(t_desk **lst, t_var *data)
+void	ft_lstclear(t_philo **lst, t_var *data)
 {
-	t_desk	*tmp;
+	t_philo	*tmp;
+	int 	i;
 
+	i = 0;
 	if (!lst)
 		return ;
-	while (*lst != NULL)
+	while (i < data->nop)
 	{
 		tmp = *lst;
-		//
+		pthread_mutex_destroy(&tmp->fork);
 		*lst = (*lst)-> next;
 		free (tmp);
+		i++;
 	}
 	tmp = NULL;
 }

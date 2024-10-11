@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/08 01:17:56 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:44:16 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,32 @@ int	initialisation(t_var *data, char **av, int ac)
 	return (1);
 }
 
+void	creat_list(t_var *data)
+{
+	t_philo	*philo;
+	int		i;
+
+	i = 0;
+	while (i < data->nop)
+	{
+		lst_add_back(&philo, new_node(data));
+		i++;
+	}
+}
+
+void	print_list(t_philo	*philos)
+{
+	t_philo	*tmp;
+
+	tmp = philos;
+	while (tmp)
+	{
+		printf("pid: %ld\n", tmp->pid);
+		tmp = tmp->next;
+		usleep(50000);
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_var	data;
@@ -40,6 +66,8 @@ int	main(int ac, char **av)
 			return (1);
 		if (data.nop == 0 || data.nom == 0)
 			return (0);
+		creat_list(&data);
+		print_list(data.first_filo);
 		// start_simulation(&data);
 	}
 	else

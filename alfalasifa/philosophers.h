@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/10 18:48:49 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:44:55 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,22 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+typedef struct s_philo
+{
+	pthread_mutex_t	fork;
+	pthread_t		philo;
+	long			pid;
+	long			ttd;
+	long			tte;
+	long			tts;
+	long			nom;
+	long			nop;
+	struct s_philo	*next;
+}	t_philo;
+
 typedef struct s_var
 {
-	t_desk			*first_filo;
+	t_philo			*first_filo;
 	long			total_time;
 	long			start;
 	long			end;
@@ -34,18 +47,24 @@ typedef struct s_var
 	pthread_mutex_t	lock;
 }	t_var;
 
-typedef struct s_desk
-{
-	pthread_mutex_t	fork;
-	pthread_t		philo;
-	t_var			*data;
-	long			ttd;
-	long			tte;
-	long			tts;
-	struct s_desk	*next;
-}	t_desk;
+// typedef struct s_philo
+// {
+// 	pthread_mutex_t	fork;
+// 	pthread_t		philo;
+// 	t_var			*data;
+// 	long			pid;
+// 	long			ttd;
+// 	long			tte;
+// 	long			tts;
+// 	long			nom;
+// 	long			nop;
+// 	struct s_philo	*next;
+// }	t_philo;
 
 long	ft_atol(char *str);
 long	get_time(void);
+t_philo	*new_node(t_var	*data);
+void	lst_add_back(t_philo **head, t_philo *new_node);
+void	ft_lstclear(t_philo **lst, t_var *data);
 
 #endif
