@@ -6,58 +6,50 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/12 17:10:11 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:01:55 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	initialisation(t_var *data, char **av, int ac)
+void	*routine(void *arg)
 {
-	data->i = 1;
-	data->first_filo = NULL;
-	data->nop = ft_atol(av[1]);
-	data->ttd = ft_atol(av[2]);
-	data->tte = ft_atol(av[3]);
-	data->tts = ft_atol(av[4]);
-	data->nom = -13;
-	if (ac == 6)
-		data->nom = ft_atol(av[5]);
-	if (data->nom == -1 || data->nop == -1 || data->ttd == -1
-		|| data->tte == -1 || data->tts == -1)
+	t_philo	*philo;
+
+	printf("here\n");
+	philo = (t_philo *)arg;
+	while (1)
 	{
-		printf("Invalid Input!\n");
-		return (0);
+		printf("philo %ld is thinking\n", philo->pid);
+		pthread_mutex_lock(&philo->fork);
+		printf("philo %ld has taken his fork\n", philo->pid);
+		pthread_mutex_lock(&philo->next->fork);
+		printf("philo %ld has taken next filo fork\n", philo->pid);
+		printf("philo %ld is eating\n", philo->pid);
+		if (!(philo->nom < 0))
+			philo->nom--;
+		if (philo->nom == 0)
+			break ;
+		pthread_mutex_unlock(&philo->fork);
+		pthread_mutex_unlock(&philo->next->fork);
+		printf("philo %ld is sleeping\n", philo->pid);
+		usleep(10000);
 	}
-	return (1);
+	return (NULL);
 }
 
-void	creat_list(t_var *data, t_philo **philos)
+void start_simulation(t_var *data, t_philo *philos)
 {
-	while (data->i <= data->nop)
-	{
-		lst_add_back(philos, new_node(data));
-		data->i++;
-	}
-}
+	int		i;
+	t_philo	*current_philo;
 
-void	print_list(t_philo	*philos)
-{
-	int	i;
-
-	i = 0;
-	while (i)
+	i = 1;
+	current_philo = philos;
+	while (i <= data->nop)
 	{
-		printf("-----------------\n");
-		printf("pid: |%ld|\n", philos->pid);
-		printf("ttd: |%ld|\n", philos->ttd);
-		printf("tte: |%ld|\n", philos->tte);
-		printf("tts: |%ld|\n", philos->tts);
-		printf("nom: |%ld|\n", philos->nom);
-		printf("nop: |%ld|\n", philos->nop);
-		printf("-----------------\n");
-		philos = philos->next;
-		sleep(1);
+		pthread_create(&current_philo->philo, NULL, &routine, (void *)current_philo);
+		current_philo = current_philo->next;
+		i++;
 	}
 }
 
@@ -74,8 +66,15 @@ int	main(int ac, char **av)
 		if (data.nop == 0 || data.nom == 0)
 			return (0);
 		creat_list(&data, &philos);
-		print_list(data.first_filo);
-		// start_simulation(&data);
+		// print_list(data.first_filo);
+		start_simulation(&data, philos);
+		int i = 1;
+		while (i <= data.nop)
+		{
+			pthread_join(philos->philo, NULL);
+			philos = philos->next;
+			i++;
+		}
 		ft_lstclear(&philos, &data);
 	}
 	else

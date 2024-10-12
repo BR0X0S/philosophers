@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 18:23:36 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/12 17:10:47 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:01:40 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,35 @@ void	lst_add_back(t_philo **head, t_philo *new_node)
 		last_node->next = new_node;
 	else
 		*head = new_node;
+}
+
+void	print_list(t_philo	*philos)
+{
+	int	i;
+
+	i = 1;
+	while (i)
+	{
+		printf("-----------------\n");
+		printf("pid: |%ld|\n", philos->pid);
+		printf("ttd: |%ld|\n", philos->ttd);
+		printf("tte: |%ld|\n", philos->tte);
+		printf("tts: |%ld|\n", philos->tts);
+		printf("nom: |%ld|\n", philos->nom);
+		printf("nop: |%ld|\n", philos->nop);
+		printf("-----------------\n");
+		philos = philos->next;
+		sleep(1);
+	}
+}
+
+void	creat_list(t_var *data, t_philo **philos)
+{
+	while (data->i <= data->nop)
+	{
+		lst_add_back(philos, new_node(data));
+		data->i++;
+	}
 }
 
 void	ft_lstclear(t_philo **lst, t_var *data)

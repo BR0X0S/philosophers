@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:40:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/08 01:17:09 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:02:03 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,24 @@ long	ft_atol(char *str)
 	if (result < 0)
 		return (-1);
 	return (result);
+}
+
+int	initialisation(t_var *data, char **av, int ac)
+{
+	data->i = 1;
+	data->first_filo = NULL;
+	data->nop = ft_atol(av[1]);
+	data->ttd = ft_atol(av[2]);
+	data->tte = ft_atol(av[3]);
+	data->tts = ft_atol(av[4]);
+	data->nom = -13;
+	if (ac == 6)
+		data->nom = ft_atol(av[5]);
+	if (data->nom == -1 || data->nop == -1 || data->ttd == -1
+		|| data->tte == -1 || data->tts == -1)
+	{
+		printf("Invalid Input!\n");
+		return (0);
+	}
+	return (1);
 }

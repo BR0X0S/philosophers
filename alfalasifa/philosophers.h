@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/12 17:05:39 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:03:55 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ long	get_time(void);
 t_philo	*new_node(t_var	*data);
 void	lst_add_back(t_philo **head, t_philo *new_node);
 void	ft_lstclear(t_philo **lst, t_var *data);
+int		initialisation(t_var *data, char **av, int ac);
+void	creat_list(t_var *data, t_philo **philos);
+void	print_list(t_philo	*philos);
 
 #endif
