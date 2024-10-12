@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/11 16:44:55 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:05:39 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,6 @@ typedef struct s_var
 	long			i;
 	pthread_mutex_t	lock;
 }	t_var;
-
-// typedef struct s_philo
-// {
-// 	pthread_mutex_t	fork;
-// 	pthread_t		philo;
-// 	t_var			*data;
-// 	long			pid;
-// 	long			ttd;
-// 	long			tte;
-// 	long			tts;
-// 	long			nom;
-// 	long			nop;
-// 	struct s_philo	*next;
-// }	t_philo;
 
 long	ft_atol(char *str);
 long	get_time(void);

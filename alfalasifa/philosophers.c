@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/11 16:44:16 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:10:11 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	initialisation(t_var *data, char **av, int ac)
 {
+	data->i = 1;
+	data->first_filo = NULL;
 	data->nop = ft_atol(av[1]);
 	data->ttd = ft_atol(av[2]);
 	data->tte = ft_atol(av[3]);
@@ -30,45 +32,51 @@ int	initialisation(t_var *data, char **av, int ac)
 	return (1);
 }
 
-void	creat_list(t_var *data)
+void	creat_list(t_var *data, t_philo **philos)
 {
-	t_philo	*philo;
-	int		i;
-
-	i = 0;
-	while (i < data->nop)
+	while (data->i <= data->nop)
 	{
-		lst_add_back(&philo, new_node(data));
-		i++;
+		lst_add_back(philos, new_node(data));
+		data->i++;
 	}
 }
 
 void	print_list(t_philo	*philos)
 {
-	t_philo	*tmp;
+	int	i;
 
-	tmp = philos;
-	while (tmp)
+	i = 0;
+	while (i)
 	{
-		printf("pid: %ld\n", tmp->pid);
-		tmp = tmp->next;
-		usleep(50000);
+		printf("-----------------\n");
+		printf("pid: |%ld|\n", philos->pid);
+		printf("ttd: |%ld|\n", philos->ttd);
+		printf("tte: |%ld|\n", philos->tte);
+		printf("tts: |%ld|\n", philos->tts);
+		printf("nom: |%ld|\n", philos->nom);
+		printf("nop: |%ld|\n", philos->nop);
+		printf("-----------------\n");
+		philos = philos->next;
+		sleep(1);
 	}
 }
 
 int	main(int ac, char **av)
 {
 	t_var	data;
+	t_philo	*philos;
 
+	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
 		if (!initialisation(&data, av, ac))
 			return (1);
 		if (data.nop == 0 || data.nom == 0)
 			return (0);
-		creat_list(&data);
+		creat_list(&data, &philos);
 		print_list(data.first_filo);
 		// start_simulation(&data);
+		ft_lstclear(&philos, &data);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 18:23:36 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/11 16:44:48 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:10:47 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_philo	*lst_last(t_philo *head)
 {
 	if (!head)
 		return (NULL);
-	while (head->next)
+	while (head && head->next)
 		head = head -> next;
 	return (head);
 }
@@ -26,7 +26,7 @@ t_philo	*new_node(t_var	*data)
 	t_philo	*new_node;
 
 	new_node = malloc(sizeof(t_philo));
-	if (data->i == 0)
+	if (data->i == 1)
 		data->first_filo = new_node;
 	pthread_mutex_init(&new_node->fork, NULL);
 	new_node->tte = data->tte;
@@ -58,12 +58,12 @@ void	lst_add_back(t_philo **head, t_philo *new_node)
 void	ft_lstclear(t_philo **lst, t_var *data)
 {
 	t_philo	*tmp;
-	int 	i;
+	int		i;
 
-	i = 0;
+	i = 1;
 	if (!lst)
 		return ;
-	while (i < data->nop)
+	while (i <= data->nop)
 	{
 		tmp = *lst;
 		pthread_mutex_destroy(&tmp->fork);
