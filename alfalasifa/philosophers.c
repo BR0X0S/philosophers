@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/12 19:01:55 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:40:16 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,20 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-void start_simulation(t_var *data, t_philo *philos)
+void	join_threads(t_var *data, t_philo *philos)
+{
+	int	i;
+
+	i = 1;
+	while (i <= data->nop)
+	{
+		pthread_join(philos->philo, NULL);
+		philos = philos->next;
+		i++;
+	}
+}
+
+void	start_simulation(t_var *data, t_philo *philos)
 {
 	int		i;
 	t_philo	*current_philo;
@@ -47,7 +60,8 @@ void start_simulation(t_var *data, t_philo *philos)
 	current_philo = philos;
 	while (i <= data->nop)
 	{
-		pthread_create(&current_philo->philo, NULL, &routine, (void *)current_philo);
+		pthread_create(&current_philo->philo, NULL, &routine,
+			(void *)current_philo);
 		current_philo = current_philo->next;
 		i++;
 	}
@@ -68,13 +82,7 @@ int	main(int ac, char **av)
 		creat_list(&data, &philos);
 		// print_list(data.first_filo);
 		start_simulation(&data, philos);
-		int i = 1;
-		while (i <= data.nop)
-		{
-			pthread_join(philos->philo, NULL);
-			philos = philos->next;
-			i++;
-		}
+		join_threads(&data, philos);
 		ft_lstclear(&philos, &data);
 	}
 	else
