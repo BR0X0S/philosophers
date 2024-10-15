@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 18:23:36 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/13 16:22:32 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:38:16 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ t_philo	*new_node(t_var	*data)
 	new_node->nom = data->nom;
 	new_node->nop = data->nop;
 	new_node->pid = data->i;
+	if (data->i % 2 == 0)
+		new_node->flag = 1;
+	else
+		new_node->flag = 0;
 	if (data->i == data->nop)
 		new_node->next = data->first_filo;
 	else
