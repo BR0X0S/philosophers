@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/15 18:35:43 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/16 00:22:47 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_philo
 	pthread_mutex_t	fork;
 	pthread_t		philo;
 	int				flag;
+	long			time;
 	long			pid;
 	long			ttd;
 	long			tte;
@@ -36,6 +37,7 @@ typedef struct s_philo
 typedef struct s_var
 {
 	t_philo			*first_filo;
+	pthread_t		waitress;
 	long			total_time;
 	long			start;
 	long			end;

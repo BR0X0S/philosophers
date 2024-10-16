@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/15 18:49:41 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/16 00:43:56 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->time = get_time();
 	if (philo->flag == 1)
 		usleep((philo->tte - 20) * 1000);
 	while (1)
 	{
 		mutex_help(&philo, philo->flag);
 		usleep(philo->tte * 1000);
+		philo->time = get_time();
 		if (!(philo->nom < 0))
 			philo->nom--;
 		if (philo->nom == 0)
@@ -47,8 +49,9 @@ void	mutex_help(t_philo **philo, int flag)
 		pthread_mutex_lock(&(*philo)->next->fork);
 		printf("philo %ld has taken next filo fork\n", (*philo)->pid);
 		printf("philo %ld is eating\n", (*philo)->pid);
+		(*philo)->time = get_time();
 	}
-	if (flag == 1)
+	else if (flag == 1)
 	{
 		printf("philo %ld is thinking\n", (*philo)->pid);
 		pthread_mutex_lock(&(*philo)->next->fork);
@@ -56,11 +59,28 @@ void	mutex_help(t_philo **philo, int flag)
 		pthread_mutex_lock(&(*philo)->fork);
 		printf("philo %ld has taken his fork\n", (*philo)->pid);
 		printf("philo %ld is eating\n", (*philo)->pid);
+		(*philo)->time = get_time();
 	}
-	if (flag == 2)
+	else if (flag == 2)
 	{
 		pthread_mutex_unlock(&(*philo)->fork);
 		pthread_mutex_unlock(&(*philo)->next->fork);
+	}
+}
+
+void	*check_rip(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	while (1)
+	{
+		if (get_time() - philo->time > philo->ttd)
+		{
+			printf("philo number %ld is died\n", philo->pid);
+			exit(1);
+		}
+		philo = philo->next;
 	}
 }
 
@@ -91,6 +111,8 @@ void	start_simulation(t_var *data, t_philo *philos)
 		current_philo = current_philo->next;
 		i++;
 	}
+	usleep(1000);
+	pthread_create(&data->waitress, NULL, check_rip, (void *)current_philo);
 }
 
 int	main(int ac, char **av)
