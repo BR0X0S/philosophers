@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/16 00:43:56 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:28:30 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	philo->time = get_time();
+	init_time(philo);
 	if (philo->flag == 1)
 		usleep((philo->tte - 20) * 1000);
 	while (1)
 	{
-		mutex_help(&philo, philo->flag);
+		if (!mutex_help(&philo, philo->flag))
+			return (NULL);
 		usleep(philo->tte * 1000);
-		philo->time = get_time();
+		init_time(philo);
 		if (!(philo->nom < 0))
 			philo->nom--;
 		if (philo->nom == 0)
@@ -39,33 +40,20 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-void	mutex_help(t_philo **philo, int flag)
+int	mutex_help(t_philo **philo, int flag)
 {
 	if (flag == 0)
-	{
-		printf("philo %ld is thinking\n", (*philo)->pid);
-		pthread_mutex_lock(&(*philo)->fork);
-		printf("philo %ld has taken his fork\n", (*philo)->pid);
-		pthread_mutex_lock(&(*philo)->next->fork);
-		printf("philo %ld has taken next filo fork\n", (*philo)->pid);
-		printf("philo %ld is eating\n", (*philo)->pid);
-		(*philo)->time = get_time();
-	}
-	else if (flag == 1)
-	{
-		printf("philo %ld is thinking\n", (*philo)->pid);
-		pthread_mutex_lock(&(*philo)->next->fork);
-		printf("philo %ld has taken next filo fork\n", (*philo)->pid);
-		pthread_mutex_lock(&(*philo)->fork);
-		printf("philo %ld has taken his fork\n", (*philo)->pid);
-		printf("philo %ld is eating\n", (*philo)->pid);
-		(*philo)->time = get_time();
-	}
-	else if (flag == 2)
+		if (!take_lfork(*philo))
+			return (0);
+	if (flag == 1)
+		if (!take_rfork(*philo))
+			return (0);
+	if (flag == 2)
 	{
 		pthread_mutex_unlock(&(*philo)->fork);
 		pthread_mutex_unlock(&(*philo)->next->fork);
 	}
+	return (1);
 }
 
 void	*check_rip(void *arg)
@@ -73,13 +61,20 @@ void	*check_rip(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	usleep(1000);
 	while (1)
 	{
-		if (get_time() - philo->time > philo->ttd)
+		pthread_mutex_lock(&philo->all->lock_time);
+		if ((get_time() - philo->time) > philo->ttd)
 		{
+			pthread_mutex_lock(&philo->all->edit);
+			philo->all->rip = 1;
 			printf("philo number %ld is died\n", philo->pid);
-			exit(1);
+			pthread_mutex_unlock(&philo->all->edit);
+			pthread_mutex_unlock(&philo->all->lock_time);
+			return (NULL);
 		}
+		pthread_mutex_unlock(&philo->all->lock_time);
 		philo = philo->next;
 	}
 }
@@ -111,7 +106,6 @@ void	start_simulation(t_var *data, t_philo *philos)
 		current_philo = current_philo->next;
 		i++;
 	}
-	usleep(1000);
 	pthread_create(&data->waitress, NULL, check_rip, (void *)current_philo);
 }
 
@@ -123,7 +117,7 @@ int	main(int ac, char **av)
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		if (!initialisation(&data, av, ac))
+		if (!initialisation(&data, philos, av, ac))
 			return (1);
 		if (data.nop == 0 || data.nom == 0)
 			return (0);

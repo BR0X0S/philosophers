@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:40:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/12 19:02:03 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:37:09 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,11 @@ long	ft_atol(char *str)
 	return (result);
 }
 
-int	initialisation(t_var *data, char **av, int ac)
+int	initialisation(t_var *data, t_philo *philo, char **av, int ac)
 {
+	(void)philo;
 	data->i = 1;
+	data->rip = 0;
 	data->first_filo = NULL;
 	data->nop = ft_atol(av[1]);
 	data->ttd = ft_atol(av[2]);

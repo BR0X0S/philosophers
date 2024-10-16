@@ -6,19 +6,19 @@
 #    By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 16:15:58 by oumondad          #+#    #+#              #
-#    Updated: 2024/10/16 00:40:24 by oumondad         ###   ########.fr        #
+#    Updated: 2024/10/16 19:35:22 by oumondad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC = philosophers.c parcing.c lists.c
+SRC = philosophers.c parcing.c lists.c fix_routines.c
 
 OBJ = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g3
 
 all : ${NAME}
 
