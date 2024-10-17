@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/17 01:23:33 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:22:44 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+
+#define THINKING 5
+#define TAKE_FORK 6
+#define EATING 7
+#define SLEEPING 8
+#define DEAD 9
 
 typedef struct s_philo
 {
@@ -39,9 +45,7 @@ typedef struct s_var
 {
 	t_philo			*first_filo;
 	pthread_t		waitress;
-	long			total_time;
 	long			start;
-	long			end;
 	long			nop;
 	long			ttd;
 	long			tte;
@@ -50,7 +54,7 @@ typedef struct s_var
 	long			i;
 	long			rip;
 	pthread_mutex_t	edit;
-	pthread_mutex_t	lock_time;
+	pthread_mutex_t	print;
 }	t_var;
 
 t_philo	*new_node(t_var	*data);
@@ -62,9 +66,13 @@ int		initialisation(t_var *data, t_philo *philo, char **av, int ac);
 void	creat_list(t_var *data, t_philo **philos);
 void	print_list(t_philo	*philos);
 void	init_time(t_philo *philo);
-int		mutex_help(t_philo **philo, int flag);
+int		mutex_help(t_philo *philo, int flag);
 int		take_lfork(t_philo *philo);
 int		take_rfork(t_philo *philo);
-int		check_death(t_var *data);
+int		check_death(t_philo *philo);
+void	print_events(t_philo *philo, int flag);
+void	*routine(void *arg);
+void	*check_rip(void *arg);
+void    ft_usleep(t_philo *philo, long t);
 
 #endif

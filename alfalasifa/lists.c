@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 18:23:36 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/16 20:18:03 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:12:44 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ t_philo	*new_node(t_var	*data)
 		data->first_filo = new_node;
 	pthread_mutex_init(&new_node->fork, NULL);
 	new_node->all = data;
-	pthread_mutex_init(&new_node->all->lock_time, NULL);
-	pthread_mutex_init(&new_node->all->edit, NULL);
 	new_node->tte = data->tte;
 	new_node->ttd = data->ttd;
 	new_node->tts = data->tts;
@@ -83,7 +81,7 @@ void	ft_lstclear(t_philo **lst, t_var *data)
 	{
 		tmp = *lst;
 		pthread_mutex_destroy(&tmp->fork);
-		// pthread_mutex_destroy(&tmp->all->lock_time);
+		// pthread_mutex_destroy(&tmp->all->print);
 		// pthread_mutex_destroy(&tmp->all->edit);
 		*lst = (*lst)-> next;
 		free (tmp);

@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:40:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/16 18:37:09 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:14:46 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,7 @@ int	initialisation(t_var *data, t_philo *philo, char **av, int ac)
 		printf("Invalid Input!\n");
 		return (0);
 	}
+	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->edit, NULL);
 	return (1);
 }
