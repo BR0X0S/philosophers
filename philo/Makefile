@@ -6,13 +6,13 @@
 #    By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 16:15:58 by oumondad          #+#    #+#              #
-#    Updated: 2024/10/17 19:06:06 by oumondad         ###   ########.fr        #
+#    Updated: 2024/10/17 19:53:33 by oumondad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC = philosophers.c parcing.c lists.c fix_routines.c
+SRC = philosophers.c parcing.c lists.c fix_routines.c utilis.c
 
 OBJ = ${SRC:.c=.o}
 
