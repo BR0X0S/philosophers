@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/16 20:28:30 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/17 01:48:40 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,34 @@ void	*routine(void *arg)
 	{
 		if (!mutex_help(&philo, philo->flag))
 			return (NULL);
-		usleep(philo->tte * 1000);
-		init_time(philo);
-		if (!(philo->nom < 0))
+		mutex_help(&philo, 2);
+		if (!check_death(philo->all))
+			return (NULL);
+		pthread_mutex_lock(&philo->all->edit);
+		if (philo->nom > 0)
 			philo->nom--;
 		if (philo->nom == 0)
-		{
-			mutex_help(&philo, 2);
-			break ;
-		}
-		mutex_help(&philo, 2);
+			return (pthread_mutex_unlock(&philo->all->edit), NULL);
+		pthread_mutex_unlock(&philo->all->edit);
 		printf("philo %ld is sleeping\n", philo->pid);
 		usleep(philo->tts * 1000);
 	}
-	return (NULL);
+}
+
+int	all_done(t_philo *philo, t_var *data)
+{
+	t_philo	*tmp;
+
+	tmp = philo;
+	pthread_mutex_lock(&data->edit);
+	while (1)
+	{
+		if (philo->nom > 0)
+			return (pthread_mutex_unlock(&data->edit), 1);
+		philo = philo->next;
+		if (philo == tmp)
+			return (pthread_mutex_unlock(&data->edit), 0);
+	}
 }
 
 int	mutex_help(t_philo **philo, int flag)
@@ -65,16 +79,22 @@ void	*check_rip(void *arg)
 	while (1)
 	{
 		pthread_mutex_lock(&philo->all->lock_time);
-		if ((get_time() - philo->time) > philo->ttd)
+		pthread_mutex_lock(&philo->all->edit);
+		if ((get_time() - philo->time) > philo->ttd && philo->nom > 0)
 		{
-			pthread_mutex_lock(&philo->all->edit);
-			philo->all->rip = 1;
-			printf("philo number %ld is died\n", philo->pid);
 			pthread_mutex_unlock(&philo->all->edit);
 			pthread_mutex_unlock(&philo->all->lock_time);
+			pthread_mutex_lock(&philo->all->edit);
+			philo->all->rip = 1;
+			pthread_mutex_unlock(&philo->all->edit);
+			printf("philo %ld died\n", philo->pid);
 			return (NULL);
 		}
+		pthread_mutex_unlock(&philo->all->edit);
 		pthread_mutex_unlock(&philo->all->lock_time);
+		if (!all_done(philo, philo->all))
+			return (NULL);
+		usleep(500);
 		philo = philo->next;
 	}
 }
@@ -90,6 +110,7 @@ void	join_threads(t_var *data, t_philo *philos)
 		philos = philos->next;
 		i++;
 	}
+	pthread_join(data->waitress, NULL);
 }
 
 void	start_simulation(t_var *data, t_philo *philos)

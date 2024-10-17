@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/16 20:10:23 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/17 01:23:33 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void	init_time(t_philo *philo);
 int		mutex_help(t_philo **philo, int flag);
 int		take_lfork(t_philo *philo);
 int		take_rfork(t_philo *philo);
+int		check_death(t_var *data);
 
 #endif
