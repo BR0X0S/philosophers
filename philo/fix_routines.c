@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:16:38 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/17 19:50:55 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:28:47 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,16 @@ int	mutex_help(t_philo *philo, int flag)
 			return (0);
 	if (flag == 2)
 	{
-		pthread_mutex_unlock(&philo->fork);
-		pthread_mutex_unlock(&philo->next->fork);
+		if (philo->flag == 0)
+		{
+			pthread_mutex_unlock(&philo->fork);
+			pthread_mutex_unlock(&philo->next->fork);
+		}
+		else
+		{
+			pthread_mutex_unlock(&philo->next->fork);
+			pthread_mutex_unlock(&philo->fork);
+		}
 	}
 	return (1);
 }

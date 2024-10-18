@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/17 19:49:16 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:47:28 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	*routine(void *arg)
 		pthread_mutex_unlock(&philo->all->edit);
 		print_events(philo, SLEEPING);
 		ft_usleep(philo, philo->tts);
+		usleep(1000);
 	}
 }
 
@@ -59,7 +60,7 @@ void	*check_rip(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	usleep(1000);
+	usleep(500);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->all->edit);
@@ -78,7 +79,6 @@ void	*check_rip(void *arg)
 		}
 		else
 			pthread_mutex_unlock(&philo->all->edit);
-		usleep(500);
 		philo = philo->next;
 	}
 }
