@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/19 15:45:33 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:18:01 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*routine(void *arg)
 		print_events(philo, SLEEPING);
 		ft_usleep(philo, philo->tts);
 		if (philo->nop % 2 != 0)
-			usleep(500);
+			usleep(900);
 	}
 }
 
@@ -69,7 +69,7 @@ void	*check_rip(void *arg)
 		{
 			philo->all->rip = 1;
 			pthread_mutex_unlock(&philo->all->edit);
-			print_events(philo, DEAD);
+			print_death(philo);
 			return (NULL);
 		}
 		if (philo->nom >= 0)
@@ -110,7 +110,7 @@ int	main(int ac, char **av)
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		if (!initialisation(&data, philos, av, ac))
+		if (!initialisation(&data, av, ac))
 			return (1);
 		if (data.nop == 0 || data.nom == 0)
 			return (0);
@@ -123,7 +123,7 @@ int	main(int ac, char **av)
 	}
 	else
 	{
-		printf("Invalid Number of Args!\n");//error
+		write(2, "Invalid Number of Args!\n", 24);
 		return (1);
 	}
 	return (0);

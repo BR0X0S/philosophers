@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:06 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/17 19:47:36 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:07:47 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ long	ft_atol(char *str);
 long	get_time(void);
 void	lst_add_back(t_philo **head, t_philo *new_node);
 void	ft_lstclear(t_philo **lst, t_var *data);
-int		initialisation(t_var *data, t_philo *philo, char **av, int ac);
+int		initialisation(t_var *data, char **av, int ac);
 void	creat_list(t_var *data, t_philo **philos);
 void	init_time(t_philo *philo);
 int		mutex_help(t_philo *philo, int flag);
@@ -74,5 +74,6 @@ void	*routine(void *arg);
 void	*check_rip(void *arg);
 void	ft_usleep(t_philo *philo, long t);
 void	join_threads(t_var *data, t_philo *philos);
+void	print_death(t_philo *philo);
 
 #endif

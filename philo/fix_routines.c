@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:16:38 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/18 16:28:47 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:07:23 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,13 @@ int	check_death(t_philo *philo)
 
 void	print_events(t_philo *philo, int flag)
 {
-	if (flag == DEAD)
-		usleep(1000);
+	pthread_mutex_lock(&philo->all->edit);
+	if (philo->all->rip == 1)
+	{
+		pthread_mutex_unlock(&philo->all->edit);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->all->edit);
 	pthread_mutex_lock(&philo->all->print);
 	if (flag == THINKING)
 		printf("%ld %ld is thinking\n",
@@ -107,9 +112,6 @@ void	print_events(t_philo *philo, int flag)
 			get_time() - philo->all->start, philo->pid);
 	else if (flag == SLEEPING)
 		printf("%ld %ld is sleeping\n",
-			get_time() - philo->all->start, philo->pid);
-	else if (flag == DEAD)
-		printf("%ld %ld died\n",
 			get_time() - philo->all->start, philo->pid);
 	pthread_mutex_unlock(&philo->all->print);
 }

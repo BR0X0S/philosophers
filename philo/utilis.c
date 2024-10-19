@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:50:30 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/17 19:51:00 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:13:34 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,12 @@ void	join_threads(t_var *data, t_philo *philos)
 		i++;
 	}
 	pthread_join(data->waitress, NULL);
+}
+
+void	print_death(t_philo *philo)
+{
+	usleep(500);
+	pthread_mutex_lock(&philo->all->print);
+	printf("%ld %ld died\n", get_time() - philo->all->start, philo->pid);
+	pthread_mutex_unlock(&philo->all->print);
 }
