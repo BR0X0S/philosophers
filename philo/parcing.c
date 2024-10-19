@@ -6,7 +6,7 @@
 /*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:40:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/18 16:47:46 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:50:05 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ long	ft_atol(char *str)
 
 int	initialisation(t_var *data, t_philo *philo, char **av, int ac)
 {
-	(void)philo;
+	(void)philo;//error
 	data->i = 1;
 	data->rip = 0;
 	data->first_filo = NULL;
@@ -89,7 +89,7 @@ int	initialisation(t_var *data, t_philo *philo, char **av, int ac)
 	if (data->nom == -1 || data->nop == -1 || data->ttd == -1
 		|| data->tte == -1 || data->tts == -1)
 	{
-		printf("Invalid Input!\n");
+		printf("Invalid Input!\n");//error
 		return (0);
 	}
 	pthread_mutex_init(&data->print, NULL);
