@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oumondad <oumondad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:16:01 by oumondad          #+#    #+#             */
-/*   Updated: 2024/10/19 17:18:01 by oumondad         ###   ########.fr       */
+/*   Updated: 2024/10/20 14:56:06 by oumondad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	init_time(philo);
-	if (philo->flag == 1)
-		usleep(500);
 	while (1)
 	{
 		if (!mutex_help(philo, philo->flag))

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oumondad <oumondad@student.1337.ma>        +#+  +:+       +#+         #
+#    By: oumondad <oumondad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 16:15:58 by oumondad          #+#    #+#              #
-#    Updated: 2024/10/19 17:11:29 by oumondad         ###   ########.fr        #
+#    Updated: 2024/10/20 15:01:27 by oumondad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g3
+CFLAGS = -Wall -Wextra -Werror
 
 all : ${NAME}
 
